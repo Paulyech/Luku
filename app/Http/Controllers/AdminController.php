@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 // use Illuminate\Notifications\Notification;
 // use Notification;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\SendEmailNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -18,8 +19,19 @@ class AdminController extends Controller
 {
     public function view_category(){
         $data=category::All();
+        $usetype=Auth::user();
 
-        return view('admin.category',compact('data'));
+        if ($usetype) {
+            return view('admin.category',compact('data'));
+
+        } 
+        
+        else
+        {
+            return redirect('login');
+        }
+        
+
     }
 
     public function add_category(request $request){

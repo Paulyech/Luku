@@ -11,15 +11,17 @@
       <meta name="description" content="" />
       <meta name="author" content="" />
       <link rel="shortcut icon" href="images/favicon.png" type="">
-      <title>Famms - Fashion HTML Template</title>
+      <title>{{config('app.name', 'Luku')}}</title>
       <!-- bootstrap core css -->
-      <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css')}} " />
       <!-- font awesome style -->
-      <link href="home/css/font-awesome.min.css" rel="stylesheet" />
+      <link href="{{asset('home/css/font-awesome.min.css')}} " rel="stylesheet" />
       <!-- Custom styles for this template -->
-      <link href="home/css/style.css" rel="stylesheet" />
+      <link href="{{asset('home/css/style.css')}} " rel="stylesheet" />
       <!-- responsive style -->
-      <link href="home/css/responsive.css" rel="stylesheet" />
+      <link href="{{asset('home/css/responsive.css')}} " rel="stylesheet" />
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    </head>
    <body>
       <div class="hero_area">
@@ -54,7 +56,7 @@
 
                 </td>
                 <td>
-                    <a onclick="return confirm('Are you sure you want to remove')" class="btn btn-danger" href="{{url('delete_cart',$cart->id)}}">Remove</a>
+                    <a onclick="confirmation(event)" class="btn btn-danger" href="{{url('delete_cart',$cart->id)}}">Remove</a>
                 </td>
             </tr>
             <?php $totalprice=$totalprice + $cart->price; ?>
@@ -78,12 +80,48 @@
       @include('home.footer')
       <!-- footer end -->
       <div class="cpy_">
-         <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
-         
-            Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-         
-         </p>
+         <p class="text-white capitalize ml-2">
+            copyright &copy;
+            <script>
+                document.write(new Date().getFullYear() );
+            </script>
+            |all rights reserved|designed by <span class="font-bold">paulyech</span> 
+        </p>
       </div>
+
+      
+
+
+
+
+
+      <script>
+            function confirmation(ev) {
+            ev.preventDefault();
+            var urlToRedirect = ev.currentTarget.getAttribute('href');  
+            console.log(urlToRedirect); 
+            swal({
+                  title: "Are you sure to cancel this product",
+                  text: "You will not be able to revert this!",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+            })
+            .then((willCancel) => {
+                  if (willCancel) {
+
+
+                     
+                     window.location.href = urlToRedirect;
+                     
+                  }  
+
+
+            });
+
+            
+         }
+</script>
       <!-- jQery -->
       <script src="js/jquery-3.4.1.min.js"></script>
       <!-- popper js -->

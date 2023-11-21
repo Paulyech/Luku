@@ -11,20 +11,22 @@
       <meta name="description" content="" />
       <meta name="author" content="" />
       <link rel="shortcut icon" href="images/favicon.png" type="">
-      <title>Famms - Fashion HTML Template</title>
+      <title>{{config('app.name', 'Luku')}}</title>
       <!-- bootstrap core css -->
-      <link rel="stylesheet" type="text/css" href="home/css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css')}} " />
       <!-- font awesome style -->
-      <link href="home/css/font-awesome.min.css" rel="stylesheet" />
+      <link href="{{asset('home/css/font-awesome.min.css')}} " rel="stylesheet" />
       <!-- Custom styles for this template -->
-      <link href="home/css/style.css" rel="stylesheet" />
+      <link href="{{asset('home/css/style.css')}} " rel="stylesheet" />
       <!-- responsive style -->
-      <link href="home/css/responsive.css" rel="stylesheet" />
+      <link href="{{asset('home/css/responsive.css')}} " rel="stylesheet" />
    </head>
    <body>
       <div class="hero_area">
          <!-- header section strats -->
         @include('home.header')
+        
+      
          <!-- end header section -->
          <!-- slider section -->
          @include('home.slider')
@@ -44,22 +46,30 @@
       @include('home.products')
       <!-- end product section -->
 
-      <!-- subscribe section -->
-      @include('home.subscribe')
-      <!-- end subscribe section -->
-      <!-- client section -->
-      @include('home.testimonials')
-      <!-- end client section -->
+      
       <!-- footer start -->
       @include('home.footer')
       <!-- footer end -->
       <div class="cpy_">
-         <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
-         
-            Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-         
-         </p>
+         <p class="text-white capitalize ml-2">
+            copyright &copy;
+            <script>
+                document.write(new Date().getFullYear() );
+            </script>
+            |all rights reserved|designed by <span class="font-bold">paulyech</span> 
+        </p>
       </div>
+
+      <script>
+         document.addEventListener("DOMContentLoaded", function(event) { 
+             var scrollpos = localStorage.getItem('scrollpos');
+             if (scrollpos) window.scrollTo(0, scrollpos);
+         });
+ 
+         window.onbeforeunload = function(e) {
+             localStorage.setItem('scrollpos', window.scrollY);
+         };
+     </script>
       <!-- jQery -->
       <script src="js/jquery-3.4.1.min.js"></script>
       <!-- popper js -->

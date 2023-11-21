@@ -56,6 +56,9 @@ Route::get('/show_cart',[HomeController::class,'show_cart']);
 Route::get('/show_order',[HomeController::class,'show_order']);
 Route::get('/cancel_order/{id}',[HomeController::class,'cancel_order']);
 Route::get('/delete_cart/{id}',[HomeController::class,'delete_cart']);
+Route::get('/product_search',[HomeController::class,'product_search']);
+Route::get('/all_product_search',[HomeController::class,'all_product_search']);
+Route::get('/all_products',[HomeController::class,'all_products']);
 
 
 // cash on delivery 

@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
 use Psy\Command\WhereamiCommand;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,7 @@ class HomeController extends Controller
             $total_product=product::all()->count();
             $total_user=user::all()->count();
             $order=order::all();
+            $dashorder=order::orderBy('created_at', 'desc')->get();
             $total_revenue=0;
             
             
@@ -37,7 +39,7 @@ class HomeController extends Controller
             $total_delivered=order::where('delivery_status','=','delivered')->get()->count();
             $total_pending=order::where('delivery_status','=','processing')->get()->count();
 
-            return view('admin.home',compact('total_order','total_product','total_user','total_revenue','total_delivered','total_pending'));
+            return view('admin.home',compact('total_order','dashorder','total_product','total_user','total_revenue','total_delivered','total_pending'));
         } else {
             $products=Product::paginate(3);
 
@@ -56,35 +58,65 @@ class HomeController extends Controller
         if (Auth::id()) {
             
            $user=Auth::user();
+           $userid=$user->id;
 
            $product=product::find($id);
 
-           $cart=new cart;
+           $product_exist_id = cart::where('product_id','=',$id)->where('user_id','=',$userid)->get('id')->first();
 
-           $cart->name=$user->name;
-           $cart->email=$user->email;
-           $cart->phone=$user->phone;
-           $cart->address=$user->address;
-           $cart->user_id=$user->id;
+           if ($product_exist_id) 
+                {
+                   $cart=cart::find($product_exist_id)->first();
+                   $quantity=$cart->quantity;
 
-           $cart->product_title=$product->title;
-           if ($product->discount_price !=null) {
-              $cart->price=$product->discount_price *$request->quantity;
+                   $cart->quantity=$quantity + $request->quantity;
 
-           }
-           else {
-              $cart->price=$product->price *$request->quantity;
-          }
-           $cart->image=$product->image;
-           $cart->product_id=$product->id;
-           $cart->quantity=$request->quantity;
+                        if ($product->discount_price !=null) {
+                            $cart->price=$product->discount_price *$cart->quantity;
 
-           $cart->save();
+                        }
+                        else {
+                            $cart->price=$product->price *$cart->quantity;
+                        }
+
+                   $cart->save();
+                 Alert::success('Product Added Successfully','Check Your Cart or Add More');
+                   return redirect()->back()->with('message','product added to cart ');
+
+
+                } else 
+                {
+                    $cart=new cart;
+
+                    $cart->name=$user->name;
+                    $cart->email=$user->email;
+                    $cart->phone=$user->phone;
+                    $cart->address=$user->address;
+                    $cart->user_id=$user->id;
+
+                    $cart->product_title=$product->title;
+                    if ($product->discount_price !=null) {
+                        $cart->price=$product->discount_price *$request->quantity;
+
+                    }
+                    else {
+                        $cart->price=$product->price *$request->quantity;
+                    }
+                    $cart->image=$product->image;
+                    $cart->product_id=$product->id;
+                    $cart->quantity=$request->quantity;
+
+                    $cart->save(); 
+                    return redirect()->back()->with('message','product added to cart ');
+                }
+           
+
+          
 
            
 
 
-            return redirect()->back();
+           
         }
         else {
             return redirect('login');
@@ -182,6 +214,32 @@ class HomeController extends Controller
         $order->save();
 
         return redirect()->back();
+
+    }
+
+    public function product_search(request $request){
+        $searchText = $request->search;
+
+        $products=product::where('title','LIKE',"%$searchText%")->orWhere('category','LIKE',"$searchText")->paginate(4);
+
+        return view('home.index',compact('products'));
+        
+
+    }
+    public function all_product_search(request $request){
+        $searchText = $request->search;
+
+        $products=product::where('title','LIKE',"%$searchText%")->orWhere('category','LIKE',"$searchText")->paginate(4);
+
+        return view('home.all_products',compact('products'));
+        
+
+    }
+
+    public function all_products(){
+        $products=product::paginate(10);
+
+        return view('home.all_products',compact('products'));
 
     }
 }

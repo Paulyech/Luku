@@ -4,7 +4,20 @@
           <h2>
              Our <span>products</span>
           </h2>
+          <div>
+            <form action="{{url('product_search')}}" method="GET" >
+               @csrf
+                 <input style="color: black;width:500px;" type="text" name="search" placeholder="Search">
+                 <input type="submit" value="Search" class="btn btn-outline-primary">
+            
+             
+             </button>
+            </form>
+          @include('sweetalert::alert')
+          </div>
+
        </div>
+       
        <div class="row">
 
          @foreach ($products as $product)
