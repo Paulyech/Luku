@@ -71,20 +71,14 @@ class AdminController extends Controller
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
 
-        // $image=$request->image;
         $image = $request->file('image');
+        if ($image) {
+            $imagename=time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('products',$imagename);
+            $product->image=$imagename;
+        }
 
-        $imagename=time().'.'.$image->getClientOriginalExtension();
-
-        // Store the image in the "public/product" directory
-        $image->storeAs('public/product', $imagename);
-
-        // Save the image file path to the database
-        $product->image = 'product/' . $imagename;
-
-
-        // $request->image->move('product',$imagename);
-
+        
 
         $product->save();
 
@@ -126,16 +120,13 @@ class AdminController extends Controller
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
         
-        $image=$request ->file('image');
 
+        $image = $request->file('image');
         if ($image) {
-            $imagename = time().'.'.$image->getClientOriginalExtension();
-
-            $image->storeAs('public/product',$imagename);
-    
-            $product->image = 'product/'.$imagename;
+            $imagename=time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('products',$imagename);
+            $product->image=$imagename;
         }
-
 
 
         $product->save();

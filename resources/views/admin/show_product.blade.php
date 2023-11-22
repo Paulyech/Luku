@@ -71,7 +71,7 @@
                                 <td>{{$product->discount_price}}</td>
                                 <td>{{$product->quantity}}</td>
                                 <td>  
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image">
+                                  <img src="{{ asset('products/' . $product->image) }}" alt="">
 
                                 </td>
                                 <td><a onclick="return confirm('Are you sure you want to delete')" class="btn btn-danger" href="{{url('/delete_product',$product->id)}}">DELETE</a></td>

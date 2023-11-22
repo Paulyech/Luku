@@ -2,6 +2,7 @@
 <html>
    <head>
       <!-- Basic -->
+      {{-- <base href="/public"> --}}
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <!-- Mobile Metas -->
@@ -30,7 +31,8 @@
         <div class="box">
           
            <div class="img-box">
-              <img src="{{ asset('storage/' . $product->image) }}" alt="">
+              <img src="{{ asset('products/' . $product->image) }}" alt="">
+
            </div>
            <div class="detail-box">
               <h5>
@@ -69,6 +71,7 @@
                      <input type="submit" value="Add to Cart">
                   </div>
                </div>
+
             
             </form>
               

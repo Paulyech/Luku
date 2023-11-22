@@ -44,7 +44,8 @@
                    </div>
                 </div>
                 <div class="img-box">
-                   <img src="{{ asset('storage/' . $product->image) }}" alt="">
+                   <img src="{{ asset('products/' . $product->image) }}" alt="">
+
                 </div>
                 {{-- <div class="detail-box"> --}}
                    <h5>
